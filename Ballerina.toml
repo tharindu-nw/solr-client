@@ -1,0 +1,8 @@
+[package]
+org = "tharinduwe"
+name = "solr_client"
+version = "0.1.0"
+distribution = "2201.9.0"
+
+[build-options]
+observabilityIncluded = true

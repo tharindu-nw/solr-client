@@ -1,0 +1,81 @@
+{
+    "create-searchcomponent": [
+    {
+        "name": "suggest",
+        "class": "solr.SuggestComponent",
+        "suggester": [
+        {
+            "name": "packages",
+            "lookupImpl": "BlendedInfixLookupFactory",
+            "dictionaryImpl": "DocumentDictionaryFactory",
+            "field": "name_s_lower",
+            "weightField": "pullCount",
+            "suggestAnalyzerFieldType": "bcentral-spell",
+            "highlight": "false"
+        },
+        {
+            "name": "symbols",
+            "lookupImpl": "BlendedInfixLookupFactory",
+            "dictionaryImpl": "DocumentDictionaryFactory",
+            "field": "symbolName",
+            "suggestAnalyzerFieldType": "bcentral-spell",
+            "highlight": "false"
+        }
+        ]
+    }
+    ],
+    "create-requesthandler": [
+    {
+        "name": "/suggest",
+        "class": "solr.SearchHandler",
+        "defaults": {
+        "suggest": "true",
+        "suggest.dictionary": ["packages", "symbols"],
+        "suggest.count": "10"
+        },
+        "components": ["suggest"]
+    }
+    ],
+    "update-requesthandler": {
+    "name": "/select",
+    "class": "solr.SearchHandler",
+    "defaults": {
+        "echoParams": "explicit",
+        "rows": 10,
+        "defType": "edismax",
+        "spellcheck": "on",
+        "spellcheck.dictionary": ["default", "wordbreak"],
+        "spellcheck.count": "10",
+        "hl": "on",
+        "hl.fl": "summary keywords",
+        "hl.tag.pre": "**",
+        "hl.tag.post": "**",
+        "hl.requireFieldMatch": false
+    },
+    "last-components": ["spellcheck"]
+    },
+    "update-searchcomponent": [
+    {
+        "name": "spellcheck",
+        "class": "solr.SpellCheckComponent",
+        "queryAnalyzerFieldType": "text_general",
+        "spellchecker": [
+        {
+            "name": "default",
+            "field": "spell",
+            "classname": "solr.IndexBasedSpellChecker",
+            "accuracy": "0.6",
+            "comparatorClass": "score"
+        },
+        {
+            "name": "wordbreak",
+            "field": "spell",
+            "classname": "solr.WordBreakSolrSpellChecker",
+            "combineWords": "true",
+            "breakWords": "false",
+            "maxChanges": 10
+        }
+        ]
+    }
+    ]
+}

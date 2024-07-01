@@ -44,6 +44,7 @@ COPY --from=ballerina-tools-build /home/work-dir/solr_client/resources /home/wor
 
 EXPOSE 8080
 
+ENV JAVA_TOOL_OPTIONS "-XX:+UseContainerSupport -XX:MaxRAMPercentage=80.0 -XX:TieredStopAtLevel=1"
 USER 10500
-CMD java -XX:+UseContainerSupport -XX:TieredStopAtLevel=1 -XX:+PrintFlagsFinal -XX:InitialRAMPercentage=50.0 -XX:MinRAMPercentage=70.0 -XX:MaxRAMPercentage=70.0 -Dio.netty.allocator.type=unpooled -XX:NativeMemoryTracking=summary -jar solr_client.jar
+CMD [ "java", "-jar", "solr_client.jar" ]
     

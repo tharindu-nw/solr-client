@@ -28,7 +28,7 @@ final http:Client solrClient = check new (solrUrl, auth = {
     // }
 );
 
-service on new http:Listener(8080) {
+service /solr on new http:Listener(8080) {
     resource function post reset\-solr() returns json {
         error? err = resetSolrIndex();
         if err is error {

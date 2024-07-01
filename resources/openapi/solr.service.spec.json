@@ -1,0 +1,54 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Solr API",
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://choreo.api.dev-central.ballerina.io/2.0/solr"
+    }
+  ],
+  "paths": {
+    "/reset-solr": {
+      "post": {
+        "operationId": "resetSolr",
+        "responses": {
+          "500": {
+            "description": "InternalServerError"
+          },
+          "default": {
+            "description": "Any Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "description": "Any type of entity body"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/solr-collections": {
+      "get": {
+        "operationId": "getSolrCollections",
+        "responses": {
+          "500": {
+            "description": "InternalServerError"
+          },
+          "default": {
+            "description": "Any Response",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "description": "Any type of entity body"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

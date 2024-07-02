@@ -5,9 +5,9 @@ import ballerina/log;
 
 configurable string solrAdminUsername = "admin";
 configurable string solrUrl = "https://bcentral-solrcloud-common";
-configurable string solrCreateSchemaPath = "./resources/solr_schema.json";
-configurable string solrConfigPath = "./resources/solr_config.json";
-configurable string solrDeleteConfigPath = "./resources/delete_solr_config.json";
+configurable string solrCreateSchemaPath = ?;
+configurable string solrConfigPath = ?;
+configurable string solrDeleteConfigPath = ?;
 configurable string solrCollection = "packages";
 configurable string solrSymbolsCollection = "symbols";
 
@@ -19,13 +19,13 @@ final http:Client solrClient = check new (solrUrl, auth = {
     secureSocket = {
         enable: false
     },
-    timeout = 60
-    // retryConfig = {
-    //     interval: 3,
-    //     count: 3,
-    //     backOffFactor: 2.0,
-    //     maxWaitInterval: 20
-    // }
+    timeout = 60,
+    retryConfig = {
+        interval: 3,
+        count: 3,
+        backOffFactor: 2.0,
+        maxWaitInterval: 20
+    }
 );
 
 service /solr on new http:Listener(8080) {
